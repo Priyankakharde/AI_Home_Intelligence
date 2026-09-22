@@ -105,6 +105,8 @@ http://127.0.0.1:8000/docs
 
 http://localhost:8501
 
+https://ai-home-intelligence.streamlit.app
+
 streamlit run dashboard/app.py
 
 📊 Dashboard
