@@ -1,0 +1,2216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Home Intelligence</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #050b14;
+            --sidebar: #07101c;
+            --panel: #0a1422;
+            --panel-2: #0d1828;
+            --border: #17283d;
+            --text: #f4f7fb;
+            --muted: #8290a5;
+            --blue: #2378ff;
+            --blue-dark: #102b88;
+            --green: #19c477;
+            --cyan: #20d8d0;
+            --purple: #7b45e8;
+            --yellow: #e5b700;
+            --pink: #df3b8e;
+            --orange: #f49a16;
+        }
+
+        body {
+            font-family:
+                Inter,
+                ui-sans-serif,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at 65% 10%,
+                    rgba(19, 54, 130, 0.15),
+                    transparent 32%
+                ),
+                var(--bg);
+
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        button {
+            font-family: inherit;
+        }
+
+        /* =========================================================
+           MAIN LAYOUT
+        ========================================================= */
+
+        .app {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* =========================================================
+           SIDEBAR
+        ========================================================= */
+
+        .sidebar {
+            width: 174px;
+            min-width: 174px;
+            min-height: 100vh;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #07111e 0%,
+                    #050c16 100%
+                );
+
+            border-right: 1px solid #172538;
+
+            padding: 22px 14px;
+
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            padding: 4px 8px 22px;
+
+            border-bottom: 1px solid #18273a;
+        }
+
+        .brand-icon {
+            width: 35px;
+            height: 35px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 10px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #1679ff,
+                    #6634ed
+                );
+
+            box-shadow:
+                0 0 18px rgba(35, 120, 255, 0.25);
+
+            font-size: 20px;
+        }
+
+        .brand-name {
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: -0.2px;
+        }
+
+        .brand-subtitle {
+            color: #61738b;
+            font-size: 8px;
+            margin-top: 3px;
+        }
+
+        .nav-title {
+            color: #63758d;
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 1.3px;
+
+            margin: 28px 8px 10px;
+        }
+
+        .nav {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .nav-item {
+            border: none;
+            background: transparent;
+            color: #aab5c5;
+
+            width: 100%;
+            height: 44px;
+
+            border-radius: 9px;
+
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            padding: 0 12px;
+
+            cursor: pointer;
+            font-size: 13px;
+
+            transition: 0.2s ease;
+        }
+
+        .nav-item:hover {
+            background: rgba(37, 119, 255, 0.10);
+            color: white;
+        }
+
+        .nav-item.active {
+            background:
+                linear-gradient(
+                    90deg,
+                    #103e9e,
+                    #0c3385
+                );
+
+            color: white;
+
+            box-shadow:
+                inset 0 0 0 1px rgba(60, 133, 255, 0.22);
+        }
+
+        .nav-icon {
+            width: 18px;
+            text-align: center;
+            font-size: 15px;
+        }
+
+        /* Upgrade card */
+
+        .upgrade {
+            margin-top: auto;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(54, 28, 138, 0.82),
+                    rgba(25, 20, 78, 0.9)
+                );
+
+            border: 1px solid #3d328d;
+            border-radius: 9px;
+
+            padding: 14px 11px;
+        }
+
+        .upgrade-title {
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 7px;
+        }
+
+        .upgrade-text {
+            font-size: 9px;
+            color: #aab1c9;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .upgrade-btn {
+            border: 1px solid #3c78ff;
+            background: #123fa5;
+            color: white;
+
+            padding: 7px 10px;
+            border-radius: 6px;
+
+            font-size: 9px;
+            cursor: pointer;
+        }
+
+        .profile {
+            margin-top: 20px;
+
+            border: 1px solid #17263a;
+            background: #091321;
+
+            border-radius: 8px;
+
+            padding: 10px;
+
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .profile-avatar {
+            width: 29px;
+            height: 29px;
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #c7d1dc,
+                    #697789
+                );
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 17px;
+        }
+
+        .profile-name {
+            font-size: 8px;
+            font-weight: 700;
+        }
+
+        .profile-email {
+            font-size: 7px;
+            color: #65768c;
+            margin-top: 2px;
+        }
+
+        /* =========================================================
+           CONTENT
+        ========================================================= */
+
+        .content {
+            flex: 1;
+            padding: 24px 24px 28px;
+            overflow-x: hidden;
+        }
+
+        .content-inner {
+            width: 100%;
+            max-width: 1160px;
+            margin: 0 auto;
+        }
+
+        /* top controls */
+
+        .topbar {
+            height: 50px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 20px;
+        }
+
+        .top-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .round-btn {
+            width: 38px;
+            height: 38px;
+
+            border-radius: 50%;
+
+            border: 1px solid #203650;
+            background: #0b1728;
+
+            color: #d7e3f2;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 23px;
+            cursor: pointer;
+        }
+
+        .activity-btn,
+        .control-btn {
+            height: 38px;
+
+            border-radius: 9px;
+
+            border: 1px solid #1c3048;
+            background: #0c1828;
+
+            color: #dbe5f2;
+
+            padding: 0 15px;
+
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        .activity-btn span:first-child {
+            color: #3385ff;
+            margin-right: 7px;
+        }
+
+        .control-btn {
+            min-width: 137px;
+        }
+
+        /* title */
+
+        .page-title {
+            font-size: 22px;
+            line-height: 1.2;
+            font-weight: 750;
+
+            letter-spacing: -0.5px;
+
+            margin-bottom: 7px;
+        }
+
+        .page-subtitle {
+            color: #72839a;
+            font-size: 11px;
+            margin-bottom: 17px;
+        }
+
+        /* =========================================================
+           HERO
+        ========================================================= */
+
+        .hero {
+            min-height: 96px;
+
+            border: 1px solid #17356d;
+            border-radius: 10px;
+
+            background:
+                linear-gradient(
+                    105deg,
+                    #071c59 0%,
+                    #0a2374 50%,
+                    #071b4d 100%
+                );
+
+            padding: 15px 18px;
+
+            display: grid;
+
+            grid-template-columns:
+                minmax(250px, 1fr)
+                1px
+                minmax(260px, 1.05fr)
+                70px;
+
+            align-items: center;
+            gap: 20px;
+
+            box-shadow:
+                inset 0 1px 0 rgba(255,255,255,0.025);
+        }
+
+        .energy-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .saving-ring {
+            width: 64px;
+            height: 64px;
+
+            flex: 0 0 64px;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            position: relative;
+
+            background:
+                conic-gradient(
+                    #3a83ff 0deg 90deg,
+                    #163a82 90deg 360deg
+                );
+        }
+
+        .saving-ring::after {
+            content: "";
+
+            position: absolute;
+            inset: 7px;
+
+            border-radius: 50%;
+
+            background: #0d2462;
+        }
+
+        .saving-value {
+            position: relative;
+            z-index: 2;
+
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .hero-label {
+            color: #d1dcf0;
+            font-size: 9px;
+            margin-bottom: 5px;
+        }
+
+        .hero-number {
+            font-size: 22px;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+
+        .hero-small {
+            color: #8496b3;
+            font-size: 9px;
+        }
+
+        .money {
+            color: #23d58c;
+            font-weight: 700;
+        }
+
+        .hero-divider {
+            width: 1px;
+            height: 55px;
+            background: rgba(111, 147, 222, 0.25);
+        }
+
+        .users-area {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .avatar-row {
+            display: flex;
+            align-items: center;
+            margin-top: 2px;
+        }
+
+        .avatar {
+            width: 34px;
+            height: 34px;
+
+            border-radius: 50%;
+
+            border: 2px solid #102967;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 18px;
+
+            margin-right: -4px;
+
+            overflow: hidden;
+        }
+
+        .avatar.one {
+            background: #dca36c;
+        }
+
+        .avatar.two {
+            background: #3f8d70;
+        }
+
+        .avatar.three {
+            background: #9b8e7c;
+        }
+
+        .avatar.four {
+            background: #c56a15;
+        }
+
+        .add-avatar {
+            width: 34px;
+            height: 34px;
+
+            border-radius: 50%;
+
+            border: 1px dashed #3b6dc7;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: #c9d8ef;
+            font-size: 21px;
+
+            margin-left: 9px;
+        }
+
+        .edit-btn {
+            justify-self: end;
+
+            border: 1px solid #243a68;
+            background: rgba(15, 31, 73, 0.65);
+
+            color: #d5e0f2;
+
+            border-radius: 8px;
+
+            padding: 9px 13px;
+
+            font-size: 10px;
+            cursor: pointer;
+        }
+
+        /* =========================================================
+           TABS
+        ========================================================= */
+
+        .tabs {
+            display: flex;
+            gap: 4px;
+
+            margin-top: 10px;
+        }
+
+        .tab {
+            border: none;
+
+            color: #8c9cb1;
+            background: transparent;
+
+            height: 34px;
+
+            padding: 0 17px;
+
+            border-radius: 7px 7px 0 0;
+
+            cursor: pointer;
+
+            font-size: 10px;
+        }
+
+        .tab.active {
+            color: #3c91ff;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #0d203b,
+                    #0a1729
+                );
+
+            box-shadow:
+                inset 0 -2px #2f83ff;
+        }
+
+        .tab-icon {
+            margin-right: 6px;
+        }
+
+        /* =========================================================
+           DEVICE CARDS
+        ========================================================= */
+
+        .devices {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 10px;
+
+            margin-bottom: 12px;
+        }
+
+        .device-card {
+            min-height: 94px;
+
+            border: 1px solid #172a40;
+            background:
+                linear-gradient(
+                    145deg,
+                    #0c1828,
+                    #09131f
+                );
+
+            border-radius: 9px;
+
+            padding: 13px 12px;
+
+            position: relative;
+        }
+
+        .device-icon {
+            height: 34px;
+            display: flex;
+            align-items: center;
+
+            font-size: 27px;
+        }
+
+        .device-name {
+            font-size: 11px;
+            font-weight: 650;
+            margin-top: 4px;
+        }
+
+        .device-network {
+            color: #77889e;
+            font-size: 8px;
+            margin-top: 6px;
+        }
+
+        .toggle {
+            width: 36px;
+            height: 20px;
+
+            position: absolute;
+            right: 12px;
+            top: 16px;
+
+            border-radius: 20px;
+
+            border: none;
+            background: #16253a;
+
+            cursor: pointer;
+        }
+
+        .toggle::after {
+            content: "";
+
+            width: 14px;
+            height: 14px;
+
+            border-radius: 50%;
+
+            position: absolute;
+            top: 3px;
+            left: 3px;
+
+            background: #e9eff7;
+
+            transition: 0.2s;
+        }
+
+        .toggle.on {
+            background: #079b60;
+        }
+
+        .toggle.on::after {
+            left: 19px;
+        }
+
+        /* =========================================================
+           CATEGORY
+        ========================================================= */
+
+        .section-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 8px;
+        }
+
+        .section-title {
+            font-size: 11px;
+            font-weight: 650;
+        }
+
+        .view-all {
+            color: #3e94ff;
+            font-size: 9px;
+            cursor: pointer;
+        }
+
+        .categories {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 8px;
+
+            margin-bottom: 11px;
+        }
+
+        .category {
+            min-height: 59px;
+
+            border-radius: 8px;
+
+            padding: 9px 11px;
+
+            border: 1px solid rgba(255,255,255,0.07);
+
+            position: relative;
+            overflow: hidden;
+
+            cursor: pointer;
+
+            transition: transform 0.2s ease;
+        }
+
+        .category:hover {
+            transform: translateY(-2px);
+        }
+
+        .category::after {
+            content: "";
+
+            position: absolute;
+
+            width: 65px;
+            height: 65px;
+
+            border-radius: 50%;
+
+            right: -25px;
+            bottom: -35px;
+
+            background: rgba(255,255,255,0.04);
+        }
+
+        .category.blue {
+            background:
+                linear-gradient(
+                    135deg,
+                    #082d8e,
+                    #09225c
+                );
+        }
+
+        .category.cyan {
+            background:
+                linear-gradient(
+                    135deg,
+                    #064f50,
+                    #073938
+                );
+        }
+
+        .category.sensor {
+            background:
+                linear-gradient(
+                    135deg,
+                    #0a4a87,
+                    #102e57
+                );
+        }
+
+        .category.green {
+            background:
+                linear-gradient(
+                    135deg,
+                    #285b16,
+                    #1a3d12
+                );
+        }
+
+        .category.yellow {
+            background:
+                linear-gradient(
+                    135deg,
+                    #5d4900,
+                    #352b05
+                );
+        }
+
+        .category.purple {
+            background:
+                linear-gradient(
+                    135deg,
+                    #45227d,
+                    #281a51
+                );
+        }
+
+        .category.pink {
+            background:
+                linear-gradient(
+                    135deg,
+                    #73194b,
+                    #42132f
+                );
+        }
+
+        .category.orange {
+            background:
+                linear-gradient(
+                    135deg,
+                    #70410a,
+                    #432a0a
+                );
+        }
+
+        .category-top {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .category-icon {
+            width: 27px;
+            height: 27px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 7px;
+
+            font-size: 18px;
+        }
+
+        .blue .category-icon {
+            color: #3c93ff;
+        }
+
+        .cyan .category-icon {
+            color: #2ce1d7;
+        }
+
+        .sensor .category-icon {
+            color: #39a4ff;
+        }
+
+        .green .category-icon {
+            color: #79d52f;
+        }
+
+        .yellow .category-icon {
+            color: #ffd018;
+        }
+
+        .purple .category-icon {
+            color: #a86cff;
+        }
+
+        .pink .category-icon {
+            color: #ff54ac;
+        }
+
+        .orange .category-icon {
+            color: #ffab28;
+        }
+
+        .category-name {
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .category-meta {
+            color: #9aa9bc;
+            font-size: 8px;
+            margin-top: 5px;
+            margin-left: 35px;
+        }
+
+        /* =========================================================
+           BOTTOM ANALYTICS
+        ========================================================= */
+
+        .bottom-grid {
+            display: grid;
+
+            grid-template-columns:
+                1.55fr
+                0.85fr
+                1.05fr;
+
+            gap: 8px;
+        }
+
+        .analytics-card {
+            min-height: 126px;
+
+            border: 1px solid #172a40;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #0a1726,
+                    #07111d
+                );
+
+            border-radius: 9px;
+
+            padding: 11px;
+        }
+
+        .card-heading {
+            font-size: 10px;
+            font-weight: 650;
+
+            margin-bottom: 6px;
+        }
+
+        .card-subheading {
+            font-size: 7px;
+            color: #74859a;
+        }
+
+        /* chart */
+
+        .chart-wrap {
+            position: relative;
+            height: 87px;
+            margin-top: 2px;
+        }
+
+        .chart {
+            width: 100%;
+            height: 76px;
+            overflow: visible;
+        }
+
+        .chart-grid {
+            stroke: #17273a;
+            stroke-width: 1;
+        }
+
+        .chart-actual {
+            fill: none;
+            stroke: #237fff;
+            stroke-width: 2;
+        }
+
+        .chart-predicted {
+            fill: none;
+            stroke: #28c878;
+            stroke-width: 1.7;
+            stroke-dasharray: 4 3;
+        }
+
+        .chart-dot {
+            fill: #237fff;
+        }
+
+        .chart-labels {
+            display: flex;
+            justify-content: space-between;
+
+            color: #65758a;
+            font-size: 6px;
+
+            padding: 0 10px;
+        }
+
+        .legend {
+            position: absolute;
+            top: 0;
+            right: 2px;
+
+            display: flex;
+            gap: 10px;
+
+            font-size: 7px;
+            color: #8a9aaf;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .legend-blue,
+        .legend-green {
+            width: 10px;
+            height: 2px;
+        }
+
+        .legend-blue {
+            background: #237fff;
+        }
+
+        .legend-green {
+            border-top: 2px dashed #28c878;
+        }
+
+        /* AI insight */
+
+        .insight-body {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+
+            margin-top: 8px;
+        }
+
+        .status-ring {
+            width: 58px;
+            height: 58px;
+
+            flex: 0 0 58px;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background:
+                conic-gradient(
+                    #20c979 0deg 290deg,
+                    #15362e 290deg 360deg
+                );
+
+            position: relative;
+        }
+
+        .status-ring::after {
+            content: "";
+
+            position: absolute;
+            inset: 6px;
+
+            border-radius: 50%;
+
+            background: #091725;
+        }
+
+        .status-text {
+            position: relative;
+            z-index: 2;
+
+            font-size: 9px;
+            font-weight: 650;
+        }
+
+        .insight-title {
+            font-size: 8px;
+            font-weight: 650;
+            margin-bottom: 5px;
+        }
+
+        .insight-copy {
+            color: #708197;
+            font-size: 7px;
+            line-height: 1.45;
+        }
+
+        .details {
+            color: #9eb1c9;
+            font-size: 7px;
+            margin-top: 9px;
+        }
+
+        /* Alerts */
+
+        .alert {
+            display: flex;
+            align-items: flex-start;
+
+            gap: 7px;
+
+            padding: 7px 0;
+
+            border-bottom: 1px solid #142336;
+        }
+
+        .alert:last-child {
+            border-bottom: none;
+        }
+
+        .alert-icon {
+            width: 15px;
+            height: 15px;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 8px;
+
+            flex: 0 0 15px;
+        }
+
+        .alert-icon.ok {
+            background: rgba(19, 201, 118, 0.14);
+            color: #20d184;
+        }
+
+        .alert-icon.warn {
+            background: rgba(238, 176, 0, 0.13);
+            color: #ffc21b;
+        }
+
+        .alert-text {
+            font-size: 7px;
+            color: #a4b1c2;
+            line-height: 1.35;
+        }
+
+        .alert-time {
+            display: block;
+            color: #5e7087;
+            margin-top: 2px;
+        }
+
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+
+        @media (max-width: 1000px) {
+
+            .sidebar {
+                width: 155px;
+                min-width: 155px;
+            }
+
+            .hero {
+                grid-template-columns:
+                    1fr
+                    1px
+                    1fr;
+            }
+
+            .edit-btn {
+                display: none;
+            }
+
+            .categories {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .bottom-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 700px) {
+
+            .app {
+                display: block;
+            }
+
+            .sidebar {
+                width: 100%;
+                min-width: 0;
+                min-height: auto;
+
+                position: relative;
+            }
+
+            .nav {
+                flex-direction: row;
+                overflow-x: auto;
+            }
+
+            .nav-item {
+                min-width: 100px;
+            }
+
+            .upgrade,
+            .profile,
+            .nav-title {
+                display: none;
+            }
+
+            .content {
+                padding: 18px 12px;
+            }
+
+            .devices {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+                gap: 13px;
+            }
+
+            .hero-divider {
+                display: none;
+            }
+
+            .users-area {
+                padding-top: 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- =========================================================
+         SIDEBAR
+    ========================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-icon">🏠</div>
+
+            <div>
+                <div class="brand-name">AI Home</div>
+                <div class="brand-subtitle">
+                    Smart Home Intelligence
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="nav-title">Menus</div>
+
+        <nav class="nav">
+
+            <button class="nav-item active">
+                <span class="nav-icon">⌂</span>
+                <span>Home</span>
+            </button>
+
+            <button class="nav-item">
+                <span class="nav-icon">▥</span>
+                <span>Tracking</span>
+            </button>
+
+            <button class="nav-item">
+                <span class="nav-icon">♙</span>
+                <span>Account</span>
+            </button>
+
+        </nav>
+
+
+        <div class="nav-title">Others</div>
+
+        <nav class="nav">
+
+            <button class="nav-item">
+                <span class="nav-icon">♧</span>
+                <span>Support</span>
+            </button>
+
+            <button class="nav-item">
+                <span class="nav-icon">?</span>
+                <span>How it works?</span>
+            </button>
+
+            <button class="nav-item">
+                <span class="nav-icon">♙</span>
+                <span>Profile</span>
+            </button>
+
+        </nav>
+
+
+        <div class="upgrade">
+
+            <div class="upgrade-title">
+                Upgrade to Pro
+            </div>
+
+            <div class="upgrade-text">
+                Unlock advanced analytics
+                and more controls.
+            </div>
+
+            <button class="upgrade-btn">
+                Upgrade Now →
+            </button>
+
+        </div>
+
+
+        <div class="profile">
+
+            <div class="profile-avatar">
+                👤
+            </div>
+
+            <div>
+                <div class="profile-name">
+                    AI Home User
+                </div>
+
+                <div class="profile-email">
+                    smart@home.ai
+                </div>
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =========================================================
+         MAIN CONTENT
+    ========================================================== -->
+
+    <main class="content">
+
+        <div class="content-inner">
+
+            <!-- TOP BAR -->
+
+            <div class="topbar">
+
+                <div class="top-left">
+
+                    <button class="round-btn">
+                        +
+                    </button>
+
+                    <button class="activity-btn">
+                        <span>♨</span>
+                        Activity
+                        ˅
+                    </button>
+
+                </div>
+
+
+                <button class="control-btn">
+                    ⚙ Control ˅
+                </button>
+
+            </div>
+
+
+            <!-- TITLE -->
+
+            <h1 class="page-title">
+                AI Home Intelligence
+            </h1>
+
+            <p class="page-subtitle">
+                Smart Home Monitoring &amp; Machine Learning Dashboard
+            </p>
+
+
+            <!-- =================================================
+                 HERO ENERGY + USERS
+            ================================================== -->
+
+            <section class="hero">
+
+                <!-- ENERGY -->
+
+                <div class="energy-area">
+
+                    <div class="saving-ring">
+
+                        <span class="saving-value">
+                            25%
+                        </span>
+
+                    </div>
+
+
+                    <div>
+
+                        <div class="hero-label">
+                            Energy saved
+                        </div>
+
+                        <div class="hero-number">
+                            25%
+                        </div>
+
+                        <div class="hero-small">
+                            Equivalent to
+                            <span class="money">
+                                $140
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="hero-divider"></div>
+
+
+                <!-- USERS -->
+
+                <div class="users-area">
+
+                    <div class="hero-label">
+                        Current users
+                    </div>
+
+                    <div class="avatar-row">
+
+                        <span class="avatar one">
+                            👨🏻
+                        </span>
+
+                        <span class="avatar two">
+                            👩🏻
+                        </span>
+
+                        <span class="avatar three">
+                            👨🏼
+                        </span>
+
+                        <span class="avatar four">
+                            👨🏾
+                        </span>
+
+                        <span class="add-avatar">
+                            +
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- EDIT -->
+
+                <button class="edit-btn">
+                    ✎ &nbsp; Edit
+                </button>
+
+            </section>
+
+
+            <!-- =================================================
+                 TABS
+            ================================================== -->
+
+            <div class="tabs">
+
+                <button class="tab active">
+                    <span class="tab-icon">▣</span>
+                    Devices
+                </button>
+
+                <button class="tab">
+                    <span class="tab-icon">⚙</span>
+                    Settings
+                </button>
+
+            </div>
+
+
+            <!-- =================================================
+                 DEVICES
+            ================================================== -->
+
+            <section class="devices">
+
+
+                <!-- Webcam -->
+
+                <div class="device-card">
+
+                    <div class="device-icon">
+                        📹
+                    </div>
+
+                    <div class="device-name">
+                        Smart Webcam
+                    </div>
+
+                    <div class="device-network">
+                        ◉ &nbsp; Wi-Fi
+                    </div>
+
+                    <button
+                        class="toggle on"
+                        onclick="toggleDevice(this)"
+                    ></button>
+
+                </div>
+
+
+                <!-- Speaker -->
+
+                <div class="device-card">
+
+                    <div class="device-icon">
+                        🔊
+                    </div>
+
+                    <div class="device-name">
+                        Stereo Speaker
+                    </div>
+
+                    <div class="device-network">
+                        ◉ &nbsp; Wi-Fi
+                    </div>
+
+                    <button
+                        class="toggle on"
+                        onclick="toggleDevice(this)"
+                    ></button>
+
+                </div>
+
+
+                <!-- Light -->
+
+                <div class="device-card">
+
+                    <div class="device-icon">
+                        💡
+                    </div>
+
+                    <div class="device-name">
+                        Room Light
+                    </div>
+
+                    <div class="device-network">
+                        ◉ &nbsp; Wi-Fi
+                    </div>
+
+                    <button
+                        class="toggle"
+                        onclick="toggleDevice(this)"
+                    ></button>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 CATEGORIES
+            ================================================== -->
+
+            <div class="section-heading">
+
+                <div class="section-title">
+                    Suggested Categories
+                </div>
+
+                <div class="view-all">
+                    View all →
+                </div>
+
+            </div>
+
+
+            <section class="categories">
+
+
+                <!-- Security -->
+
+                <div class="category blue">
+
+                    <div class="category-top">
+
+                        <div class="category-icon">
+                            🛡
+                        </div>
+
+                        <div class="category-name">
+                            Security
+                        </div>
+
+                    </div>
+
+                    <div class="category-meta">
+                        ● 2 Cameras
+                    </div>
+
+                </div>
+
+
+                <!-- Climate -->
+
+                <div class="category cyan">
+
+                    <div class="category-top">
+
+                        <div class="category-icon">
+                            ▤
+                        </div>
+
+                        <div class="category-name">
+                            Climate-Con
+                        </div>
+
+                    </div>
+
+                    <div class="category-meta">
+                        ● 2 AC
+                    </div>
+
+                </div>
+
+
+                <!-- Sensors -->
+
+                <div class="category sensor">
+
+                    <div class="category-top">
+
+                        <div class="category-icon">
+                            ◉
+                        </div>
+
+                        <div class="category-name">
+                            Sensors
+                        </div>
+
+                    </div>
+
+                    <div class="category-meta">
+                        ● Humidity &amp; Air
+                    </div>
+
+                </div>
+
+
+                <!-- Appliances -->
+
+                <div class="category green">
+
+                    <div class="category-top">
+
+                        <div class="category-icon">
+                            ▣
+                        </div>
+
+                        <div class="category-name">
+                            Appliances
+                        </div>
+
+                    </div>
+
+                    <div class="category-meta">
+                        ● 1 Fridge
+                    </div>
+
+                </div>
+
+
+                <!-- Lighting -->
+
+                <div class="category yellow">
+
+                    <div class="category-top">
+
+                        <div class="category-icon">
+                            💡
+                        </div>
+
+                        <div class="category-name">
+                            Lighting
+                        </div>
+
+                    </div>
+
+                    <div class="category-meta">
+                        ● 5 Devices
+                    </div>
+
+                </div>
+
+
+                <!-- Remote Lock -->
+
+                <div class="category purple">
+
+                    <div class="category-top">
+
+                        <div class="category-icon">
+                            🔒
+                        </div>
+
+                        <div class="category-name">
+                            Remote Lock
+                        </div>
+
+                    </div>
+
+                    <div class="category-meta">
+                        ● 6 Doors
+                    </div>
+
+                </div>
+
+
+                <!-- Entertainment -->
+
+                <div class="category pink">
+
+                    <div class="category-top">
+
+                        <div class="category-icon">
+                            ▣
+                        </div>
+
+                        <div class="category-name">
+                            Entertainment
+                        </div>
+
+                    </div>
+
+                    <div class="category-meta">
+                        ● 2 TV
+                    </div>
+
+                </div>
+
+
+                <!-- Energy -->
+
+                <div class="category orange">
+
+                    <div class="category-top">
+
+                        <div class="category-icon">
+                            ⚡
+                        </div>
+
+                        <div class="category-name">
+                            Energy
+                        </div>
+
+                    </div>
+
+                    <div class="category-meta">
+                        Usage Insights
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 ANALYTICS
+            ================================================== -->
+
+            <section class="bottom-grid">
+
+
+                <!-- ENERGY CHART -->
+
+                <div class="analytics-card">
+
+                    <div class="card-heading">
+                        Energy Consumption
+                    </div>
+
+                    <div class="card-subheading">
+                        kWh
+                    </div>
+
+
+                    <div class="chart-wrap">
+
+                        <div class="legend">
+
+                            <div class="legend-item">
+                                <span class="legend-blue"></span>
+                                Actual
+                            </div>
+
+                            <div class="legend-item">
+                                <span class="legend-green"></span>
+                                Predicted
+                            </div>
+
+                        </div>
+
+
+                        <svg
+                            class="chart"
+                            viewBox="0 0 420 90"
+                            preserveAspectRatio="none"
+                        >
+
+                            <!-- grid -->
+
+                            <line
+                                class="chart-grid"
+                                x1="0"
+                                y1="15"
+                                x2="420"
+                                y2="15"
+                            />
+
+                            <line
+                                class="chart-grid"
+                                x1="0"
+                                y1="35"
+                                x2="420"
+                                y2="35"
+                            />
+
+                            <line
+                                class="chart-grid"
+                                x1="0"
+                                y1="55"
+                                x2="420"
+                                y2="55"
+                            />
+
+                            <line
+                                class="chart-grid"
+                                x1="0"
+                                y1="75"
+                                x2="420"
+                                y2="75"
+                            />
+
+
+                            <!-- predicted -->
+
+                            <polyline
+                                class="chart-predicted"
+                                points="
+                                0,58
+                                35,51
+                                70,44
+                                105,40
+                                140,45
+                                175,37
+                                210,42
+                                245,48
+                                280,43
+                                315,39
+                                350,45
+                                385,30
+                                420,18
+                                "
+                            />
+
+
+                            <!-- actual -->
+
+                            <polyline
+                                class="chart-actual"
+                                points="
+                                0,61
+                                35,54
+                                70,49
+                                105,45
+                                140,39
+                                175,48
+                                210,35
+                                245,26
+                                280,34
+                                315,51
+                                350,38
+                                385,57
+                                420,52
+                                "
+                            />
+
+
+                            <!-- dots -->
+
+                            <circle
+                                class="chart-dot"
+                                cx="35"
+                                cy="54"
+                                r="2"
+                            />
+
+                            <circle
+                                class="chart-dot"
+                                cx="105"
+                                cy="45"
+                                r="2"
+                            />
+
+                            <circle
+                                class="chart-dot"
+                                cx="175"
+                                cy="48"
+                                r="2"
+                            />
+
+                            <circle
+                                class="chart-dot"
+                                cx="245"
+                                cy="26"
+                                r="2"
+                            />
+
+                            <circle
+                                class="chart-dot"
+                                cx="315"
+                                cy="51"
+                                r="2"
+                            />
+
+                            <circle
+                                class="chart-dot"
+                                cx="385"
+                                cy="57"
+                                r="2"
+                            />
+
+                        </svg>
+
+
+                        <div class="chart-labels">
+                            <span>27 May</span>
+                            <span>28 May</span>
+                            <span>29 May</span>
+                            <span>30 May</span>
+                            <span>31 May</span>
+                            <span>1 Jun</span>
+                            <span>2 Jun</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- AI INSIGHT -->
+
+                <div class="analytics-card">
+
+                    <div class="card-heading">
+                        AI Insight
+                    </div>
+
+
+                    <div class="insight-body">
+
+                        <div class="status-ring">
+
+                            <span class="status-text">
+                                Normal
+                            </span>
+
+                        </div>
+
+
+                        <div>
+
+                            <div class="insight-title">
+                                No anomalies detected
+                            </div>
+
+                            <div class="insight-copy">
+                                AI system is monitoring
+                                your home and everything
+                                looks good.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="details">
+                        View details &nbsp;›
+                    </div>
+
+                </div>
+
+
+                <!-- ALERTS -->
+
+                <div class="analytics-card">
+
+                    <div class="section-heading">
+
+                        <div class="card-heading">
+                            Recent Alerts
+                        </div>
+
+                        <div class="view-all">
+                            View all →
+                        </div>
+
+                    </div>
+
+
+                    <div class="alert">
+
+                        <div class="alert-icon ok">
+                            ✓
+                        </div>
+
+                        <div class="alert-text">
+                            All devices are operating normally.
+                            <span class="alert-time">
+                                2 min ago
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="alert">
+
+                        <div class="alert-icon warn">
+                            !
+                        </div>
+
+                        <div class="alert-text">
+                            High energy usage detected in
+                            Living Room AC.
+                            <span class="alert-time">
+                                15 min ago
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="alert">
+
+                        <div class="alert-icon ok">
+                            ✓
+                        </div>
+
+                        <div class="alert-text">
+                            Room Light turned OFF automatically.
+                            <span class="alert-time">
+                                1 hour ago
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<script>
+
+    /* =========================================================
+       DEVICE TOGGLE
+    ========================================================== */
+
+    function toggleDevice(button) {
+
+        button.classList.toggle("on");
+
+        const deviceCard = button.closest(".device-card");
+
+        const name =
+            deviceCard.querySelector(".device-name").innerText;
+
+        const state =
+            button.classList.contains("on")
+                ? "ON"
+                : "OFF";
+
+        console.log(name + " → " + state);
+
+    }
+
+
+    /* =========================================================
+       SIDEBAR NAVIGATION
+    ========================================================== */
+
+    document
+        .querySelectorAll(".nav-item")
+        .forEach(function(item) {
+
+            item.addEventListener("click", function() {
+
+                document
+                    .querySelectorAll(".nav-item")
+                    .forEach(function(nav) {
+
+                        nav.classList.remove("active");
+
+                    });
+
+                this.classList.add("active");
+
+            });
+
+        });
+
+
+    /* =========================================================
+       TABS
+    ========================================================== */
+
+    document
+        .querySelectorAll(".tab")
+        .forEach(function(tab) {
+
+            tab.addEventListener("click", function() {
+
+                document
+                    .querySelectorAll(".tab")
+                    .forEach(function(t) {
+
+                        t.classList.remove("active");
+
+                    });
+
+                this.classList.add("active");
+
+            });
+
+        });
+
+
+    /* =========================================================
+       PLUS BUTTON
+    ========================================================== */
+
+    document
+        .querySelector(".round-btn")
+        .addEventListener("click", function() {
+
+            alert("Add device");
+
+        });
+
+
+    /* =========================================================
+       EDIT BUTTON
+    ========================================================== */
+
+    document
+        .querySelector(".edit-btn")
+        .addEventListener("click", function() {
+
+            alert("User management will be connected to the backend.");
+
+        });
+
+
+    /* =========================================================
+       CONTROL BUTTON
+    ========================================================== */
+
+    document
+        .querySelector(".control-btn")
+        .addEventListener("click", function() {
+
+            alert("Smart home controls");
+
+        });
+
+</script>
+
+</body>
+</html>
